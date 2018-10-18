@@ -1,6 +1,6 @@
 class Union:
     """A union is a set of participants."""
-    def __init__(self, firstUser: Participant):
+    def __init__(self, firstUser):
         # list of people who cannot participate in the union (strings)
         self.blocklist = []
 
@@ -13,14 +13,14 @@ class Union:
     def addRule(self, inputRule: str):
         self.rules += inputRule
 
-    def addParticipant(self, inParticipant: Participant):
+    def addParticipant(self, inParticipant):
         #  Add a participant to the union
         if inParticipant is Participant:
             self.participants += inParticipant
         else:
             raise TypeError
 
-    def removeParticipant(self, inParticipant: Participant):
+    def removeParticipant(self, inParticipant):
         #  Remove a participant from the union
         if inParticipant in self.participants:
             self.participants.remove(inParticipant)
@@ -36,11 +36,11 @@ class Decision(Union):
         self.voterCount = 0
         self.finalDecision = False
 
-    def addVoter(self, inParticipant: Participant):
+    def addVoter(self, inParticipant):
         #  Add a participant to the list of people who votd
         self.votedList += inParticipant
 
-    def checkVoter(self, inParticipant: Participant):
+    def checkVoter(self, inParticipant):
         # Check if the user is allowed to vote (ex. hasn't voted already)
         # If voted already, return False
         if inParticipant in self.votedList:
@@ -54,7 +54,7 @@ class Decision(Union):
         else:
             self.finalDecision = False
 
-    def addVoter(self, inParticipant: Participant):
+    def addVoter(self, inParticipant):
         if self.checkVoter(inParticipant):
             return ValueError # TODO: need error handling
         else:
@@ -76,3 +76,25 @@ class Participant(Union):
     def checkIfCanTalk(self):
         # Wrapper to return whether this person is allowed to talk.
         return self.canTalk
+
+    def allowVote(self):
+        # Change participant's status to allowed to vote
+        self.canVote = True
+
+    def allowTalk(self):
+        # Change participant's status to allowed to talk
+        self.canTalk = True
+
+    def restrictVote(self):
+        # Change participant's status to not allowed to vote
+        self.canVote = False
+
+    def restrictTalk(self):
+        # Change participant's status to not allowed to talk
+        self.canTalk = False
+
+"""
+
+test1 = Participant('hi')
+print(test1.checkVote())
+"""
